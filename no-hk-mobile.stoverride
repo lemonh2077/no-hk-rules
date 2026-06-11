@@ -1,0 +1,17 @@
+name: OpenAI No HK
+desc: OpenAI/Codex 使用自动选择的非香港节点
+
+proxy-groups:
+  - name: NoHK-Auto
+    type: url-test
+    include-all: true
+    filter: '(?i)^(?!.*(?:香港|HKG)).*$'
+    interval: 600
+
+rules:
+  - DOMAIN-SUFFIX,openai.com,NoHK-Auto
+  - DOMAIN-SUFFIX,chatgpt.com,NoHK-Auto
+  - DOMAIN-SUFFIX,oaistatic.com,NoHK-Auto
+  - DOMAIN-SUFFIX,oaiusercontent.com,NoHK-Auto
+  - DOMAIN-SUFFIX,openaiapi-site.azureedge.net,NoHK-Auto
+  - DOMAIN-SUFFIX,auth0.com,NoHK-Auto
