@@ -1,0 +1,76 @@
+# no-hk-mobile.yaml
+# 手机代理覆写文件：OpenAI/Codex 走代理，但代理组自动排除香港节点
+# 适用于 Mihomo/Clash Meta 类客户端
+
+proxy-groups:
+  - name: DirectACCESS
+    type: select
+    proxies:
+      - 自动选择
+      - 故障转移
+    include-all: true
+    exclude-filter: "(?i)(香港|HKG)"
+
+  - name: 自动选择
+    type: url-test
+    include-all: true
+    exclude-filter: "(?i)(香港|HKG)"
+    url: http://www.gstatic.com/generate_204
+    interval: 86400
+
+  - name: 故障转移
+    type: fallback
+    include-all: true
+    exclude-filter: "(?i)(香港|HKG)"
+    url: http://www.gstatic.com/generate_204
+    interval: 7200
+
++rules:
+  # OpenAI / Codex 相关规则：走代理，但不会走香港
+  - DOMAIN-SUFFIX,openai.com,DirectACCESS
+  - DOMAIN-SUFFIX,chatgpt.com,DirectACCESS
+  - DOMAIN-SUFFIX,oaistatic.com,DirectACCESS
+  - DOMAIN-SUFFIX,oaiusercontent.com,DirectACCESS
+  - DOMAIN-SUFFIX,openaiapi-site.azureedge.net,DirectACCESS
+  - DOMAIN-SUFFIX,auth0.com,DirectACCESS
+
+  # 国内政务 / 日常规则：直连
+  - DOMAIN-SUFFIX,gdgov.cn,DIRECT
+  - DOMAIN-SUFFIX,gov.cn,DIRECT
+  - DOMAIN-SUFFIX,data.gdgov.cn,DIRECT
+  - DOMAIN-SUFFIX,quark.cn,DIRECT
+  - DOMAIN-SUFFIX,qq.com,DIRECT
+  - DOMAIN-SUFFIX,xunlei.com,DIRECT
+  - IP-CIDR,19.25.34.77/32,DIRECT
+  - IP-CIDR,19.25.34.83/32,DIRECT
+  - IP-CIDR,19.25.34.86/32,DIRECT
+
+  # MiniMax API 直连
+  - DOMAIN-SUFFIX,minimaxi.com,DIRECT
+  - DOMAIN-SUFFIX,minimax.com,DIRECT
+
+dns:
+  enable: true
+  ipv6: false
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  use-hosts: false
+  use-system-hosts: true
+  default-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+  nameserver:
+    - system
+    - 114.114.114.114
+  fake-ip-filter:
+    - +.lan
+    - +.local
+    - time.*.com
+    - ntp.*.com
+    - +.market.xiaomi.com
+  proxy-server-nameserver:
+    - system
+    - 114.114.114.114
+  direct-nameserver:
+    - system
+    - 114.114.114.114
