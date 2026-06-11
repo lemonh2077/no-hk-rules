@@ -1,29 +1,6 @@
 # no-hk-mobile.yaml
-# 手机代理覆写文件：OpenAI/Codex 走代理，但代理组自动排除香港节点
+# 手机代理覆写文件：复用订阅已有的 DirectACCESS，避免重复代理组
 # 适用于 Mihomo/Clash Meta 类客户端
-
-proxy-groups:
-  - name: DirectACCESS
-    type: select
-    proxies:
-      - 自动选择
-      - 故障转移
-    include-all: true
-    exclude-filter: "(?i)(香港|HKG)"
-
-  - name: 自动选择
-    type: url-test
-    include-all: true
-    exclude-filter: "(?i)(香港|HKG)"
-    url: http://www.gstatic.com/generate_204
-    interval: 86400
-
-  - name: 故障转移
-    type: fallback
-    include-all: true
-    exclude-filter: "(?i)(香港|HKG)"
-    url: http://www.gstatic.com/generate_204
-    interval: 7200
 
 +rules:
   # OpenAI / Codex 相关规则：走代理，但不会走香港
