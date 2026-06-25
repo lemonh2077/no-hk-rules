@@ -1,5 +1,5 @@
 name: OpenAI No HK
-desc: OpenAI/Codex 使用自动选择的非香港节点
+desc: OpenAI/Codex 使用自动选择的非香港节点，并直连内网数据库
 
 proxy-groups:
   - name: NoHK-Auto
@@ -9,6 +9,8 @@ proxy-groups:
     interval: 600
 
 rules:
+  - AND,((IP-CIDR,19.25.34.84/32,no-resolve),(DST-PORT,5237)),DIRECT
+  - IP-CIDR,19.25.34.84/32,DIRECT,no-resolve
   - DOMAIN-SUFFIX,openai.com,NoHK-Auto
   - DOMAIN-SUFFIX,chatgpt.com,NoHK-Auto
   - DOMAIN-SUFFIX,oaistatic.com,NoHK-Auto
