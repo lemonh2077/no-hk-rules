@@ -3,6 +3,10 @@
 # 适用于 Mihomo/Clash Meta 类客户端
 
 +rules:
+  # 达梦数据库直连，避免 TUN 开启后 5237 数据库连接被代理接管
+  - AND,((IP-CIDR,19.25.34.84/32,no-resolve),(DST-PORT,5237)),DIRECT
+  - IP-CIDR,19.25.34.84/32,DIRECT,no-resolve
+
   # OpenAI / Codex 相关规则：走代理，但不会走香港
   - DOMAIN-SUFFIX,openai.com,DirectACCESS
   - DOMAIN-SUFFIX,chatgpt.com,DirectACCESS
