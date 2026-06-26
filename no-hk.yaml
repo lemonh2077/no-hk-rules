@@ -25,7 +25,13 @@ proxy-groups:
     interval: 7200
 
 +rules:
-  # 达梦数据库直连，避免 TUN 开启后 5237 数据库连接被代理接管
+  # 达梦数据库直连，避免 TUN 开启后数据库连接被代理接管
+  - AND,((IP-CIDR,19.25.34.81/32,no-resolve),(DST-PORT,15236)),DIRECT
+  - IP-CIDR,19.25.34.81/32,DIRECT,no-resolve
+  - AND,((IP-CIDR,19.25.36.128/32,no-resolve),(DST-PORT,5236)),DIRECT
+  - IP-CIDR,19.25.36.128/32,DIRECT,no-resolve
+  - AND,((IP-CIDR,19.15.75.180/32,no-resolve),(DST-PORT,8581)),DIRECT
+  - IP-CIDR,19.15.75.180/32,DIRECT,no-resolve
   - AND,((IP-CIDR,19.25.34.84/32,no-resolve),(DST-PORT,5237)),DIRECT
   - IP-CIDR,19.25.34.84/32,DIRECT,no-resolve
 
