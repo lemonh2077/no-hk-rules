@@ -84,6 +84,9 @@ dns:
     - system
     - 114.114.114.114
 
+sniffer:
+  override-destination: false
+
 tun:
   enable: true
   stack: system
