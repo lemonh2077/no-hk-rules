@@ -1,3 +1,4 @@
+ipv6: false
 # 覆写规则：不使用香港代理
 # 说明：通过 exclude-filter 排除名称包含“香港”或“HKG”的节点
 
