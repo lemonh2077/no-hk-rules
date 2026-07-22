@@ -93,4 +93,9 @@ tun:
   stack: system
   device: Mihomo
   auto-route: true
+  route-exclude-address:
+    - 19.15.30.121/32
+    - 19.19.19.209/32
+    - 19.19.19.241/32
+    - 19.19.19.225/32
   auto-redirect: false
