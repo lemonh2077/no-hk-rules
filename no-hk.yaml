@@ -26,10 +26,7 @@ proxy-groups:
     interval: 7200
 
 +rules:
-  # 数据中台业务库：仅设置直连，不修改 TUN 路由
-  - IP-CIDR,19.25.34.77/32,DIRECT,no-resolve
-
-  # 达梦数据库直连
+  # 达梦数据库直连，避免 TUN 开启后数据库连接被代理接管
   - AND,((IP-CIDR,19.25.34.81/32,no-resolve),(DST-PORT,15236)),DIRECT
   - IP-CIDR,19.25.34.81/32,DIRECT,no-resolve
   - AND,((IP-CIDR,19.25.36.128/32,no-resolve),(DST-PORT,5236)),DIRECT
@@ -50,6 +47,7 @@ proxy-groups:
   # 国内政务 / 日常规则：直连
   - DOMAIN-SUFFIX,gdgov.cn,DIRECT
   - DOMAIN-SUFFIX,quark.cn,DIRECT
+  - IP-CIDR,19.25.34.77/32,DIRECT
   - DOMAIN-SUFFIX,gov.cn,DIRECT
   - IP-CIDR,19.25.34.83/32,DIRECT
   - DOMAIN-SUFFIX,data.gdgov.cn,DIRECT
@@ -60,3 +58,44 @@ proxy-groups:
   # MiniMax API 直连
   - DOMAIN-SUFFIX,minimaxi.com,DIRECT
   - DOMAIN-SUFFIX,minimax.com,DIRECT
+
+dns:
+  enable: true
+  ipv6: false
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  use-hosts: false
+  use-system-hosts: true
+  default-nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+  nameserver:
+    - system
+    - 114.114.114.114
+  fake-ip-filter:
+    - +.lan
+    - +.local
+    - time.*.com
+    - ntp.*.com
+    - +.market.xiaomi.com
+  proxy-server-nameserver:
+    - system
+    - 114.114.114.114
+  direct-nameserver:
+    - system
+  direct-nameserver-follow-policy: false
+
+sniffer:
+  override-destination: false
+
+tun:
+  enable: true
+  stack: system
+  device: Mihomo
+  auto-route: true
+  route-exclude-address:
+    - 19.15.30.121/32
+    - 19.19.19.209/32
+    - 19.19.19.241/32
+    - 19.19.19.225/32
+  auto-redirect: false
